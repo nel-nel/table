@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <link rel="stylesheet" type="text/css" href="table.css">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body id = "body">
+<lable><input type="text" id="n"/> <button id="createTb">Generate</button></lable>
+<div id = "div1" > </div>
+</body>
+<script async type="text/javascript">
+   var isThereTb = false;
+  document.getElementById("createTb").addEventListener("click",function(){
+      var n = parseInt(document.getElementById("n").value);
+      if(!n || n >100){
+          alert("Plese insert a number not bigger than 100!");
+          return;
+      }
+      random(document.getElementById("n").value);
+  }, false);
+
+
+
+  function random (n) {
+     if (isThereTb == true) {
+            document.getElementById("tb").remove();
+
+      };
+        var Arr = [];
+        var div = document.getElementById("div1");
+
+        var table = document.createElement("table");
+        table.id = "tb";
+        var tr = document.createElement("tr");
+
+        var nButton = document.createElement("button");
+        nButton.innerHTML = "Names";
+        nButton.id = "sortName";
+        var Td1 = document.createElement("td");
+
+        var aButton = document.createElement("button");
+        aButton.innerHTML = "Age";
+        aButton.id = "sortAge";
+        var Td2 = document.createElement("td");
+
+        var sButton = document.createElement("button");
+        sButton.innerHTML = "Sex";
+        sButton.id = "sex";
+        var Td3 = document.createElement("td");
+
+        div.appendChild(table);
+        table.appendChild(tr);
+        tr.appendChild(Td1);
+        Td1.appendChild(nButton);
+        tr.appendChild(Td2);
+        Td2.appendChild(aButton);
+        tr.appendChild(Td3);
+        Td3.appendChild(sButton);
+
+        function insertTable() {
+            nameText = " ";
+            var alphabet = "асдфгхйклзьцжбнмявертъуиопшщчю"
+            for (var i = 1; i <= 3; i++) {
+                for (var j = 0; j <= 3 + Math.floor(Math.random() * 10); j++) {
+                    nameText += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                }
+                ;
+                nameText += " ";
+            }
+            ;
+            var sex = "МЖ";
+            var MorF;
+            MorF = sex.charAt(Math.floor(Math.random() * sex.length));
+            var age;
+            age = Math.floor(1 + Math.random() * 49);
+            var tr1 = document.createElement("tr");
+            var td1 = document.createElement("td");
+            td1.innerHTML = nameText;
+            var td2 = document.createElement("td");
+            td2.innerHTML = age;
+            var td3 = document.createElement("td");
+            td3.innerHTML = MorF;
+
+            var ob = {
+                Name : nameText,
+                Age:  age,
+                Sex:  MorF
+
+            }
+           Arr.push(ob);
+
+            table.appendChild(tr1);
+            tr1.appendChild(td1);
+            tr1.appendChild(td2);
+            tr1.appendChild(td3);
+
+        };
+        for (var i = 0; i < n; i++) {
+            insertTable();
+        };
+        //console.log(Arr);
+        var json = JSON.stringify(Arr);
+        console.log(json);
+
+        isThereTb = true;
+        document.getElementById("sortAge").addEventListener("click", function sortAges() {
+            var table = document.getElementById('tb');
+            var n = table.rows.length;
+            for (var i = 1; i < n; i++) {
+                for (var r = 1; r < n - i; r++) {
+                    var p = r + 1;
+                    var el = parseInt(table.rows[r].cells[1].innerHTML);
+                    var el1 = parseInt(table.rows[p].cells[1].innerHTML);
+                    console.log(typeof(el));
+                    // second cell on concequent row
+                    if (el > el1) {
+                        table.insertBefore(table.rows[p], table.rows[r]);
+                    }
+                }
+            }
+        });
+        document.getElementById("sortName").addEventListener("click", function sortNames() {
+            var table = document.getElementById('tb');
+            var n = table.rows.length;
+            for (var i = 1; i < n; i++) {
+                for (var r = 1; r < n - i; r++) {
+                    var p = r + 1;
+                    var el = table.rows[r].cells[0].innerHTML;
+                    var el1 = table.rows[p].cells[0].innerHTML;
+                    if (el.localeCompare(el1) == 1) {
+                        table.insertBefore(table.rows[p], table.rows[r]);
+                    }
+                }
+            }
+        });
+        document.getElementById("sex").addEventListener("click", function sortSexes() {
+            // console.log(5);
+            var table = document.getElementById('tb');
+            var n = table.rows.length;
+            for (var i = 1; i < n; i++) {
+                for (var r = 1; r < n - i; r++) {
+                    var p = r + 1;
+                    var el = table.rows[r].cells[2].innerHTML;
+                    var el1 = table.rows[p].cells[2].innerHTML;
+                    console.log(el);
+                    if (el.localeCompare(el1) == 1) {
+                        table.insertBefore(table.rows[p], table.rows[r]);
+                    }
+                }
+            }
+        });
+    };
+</script>
+<canvas id='nelly' width="150" height="150" border="black"> </canvas>
+</html>
+
